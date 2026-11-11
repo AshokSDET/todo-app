@@ -80,4 +80,4 @@ npm run quality:gate      # Evidence-based release decision
 4. Read [architecture decisions](docs/ARCHITECTURE_DECISIONS.md).
 5. Open a PR and inspect the automated evidence; decide whether to release using the [template](docs/RELEASE_REVIEW_TEMPLATE.md).
 
-**Maintainer:** [AshokSDET](https://github.com/AshokSDET) · [LinkedIn](https://www.linkedin.com/in/ashoksulthan-softwarequalityengineer/)
+**Maintainer:** [AshokSDET]

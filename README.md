@@ -1,46 +1,83 @@
-# Todo App
-A simple Todo application built using HTML, CSS, and JavaScript. This app allows users to add, edit, and delete tasks, helping them manage their daily to-dos efficiently.
+# Quality Engineering Leadership Lab
 
-## Table of Contents
-1. [Features](#features)
-2. [Screenshots](#screenshots)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Technologies Used](#technologies-used)
+**A runnable engineering portfolio demonstrating how a Senior SDET / Quality Engineering Lead approaches product risk, automation architecture, release governance, and engineering trade-offs.**
 
-## Features
-- **Add Tasks**: Users can quickly add new tasks to the list.
-- **Edit Tasks**: Tasks can be edited to update their content.
-- **Complete Tasks**: Users can mark the completed tasks present in the list.
-- **Delete Tasks**: Users can delete tasks once they're completed or no longer needed.
-- **Responsive Design**: The application adapts to different screen sizes for a great user experience on both desktop and mobile.
+This is an **original sample system**, not a claim about proprietary employer software or a production deployment.
 
-## Screenshots
-![image](https://github.com/user-attachments/assets/394e80dd-28df-4209-8f8d-20524112a366)
+## What this project proves
 
+| Engineering dimension | Evidence in repository |
+| --- | --- |
+| User-centered delivery | Accessible task board with add, edit, complete, delete, validation, and browser persistence |
+| Automation design | Playwright TypeScript tests across desktop and mobile Chromium projects |
+| Test strategy | [Risk-based quality strategy](docs/QUALITY_STRATEGY.md) and test pyramid |
+| API and security boundaries | Node HTTP health-contract test, allowlisted routes, CSP, injection test |
+| CI/CD | [GitHub Actions quality gates](.github/workflows/quality-gates.yml), test artifacts and retries |
+| Release ownership | Evidence-based GO/NO-GO script and [release review template](docs/RELEASE_REVIEW_TEMPLATE.md) |
+| Architecture leadership | [Documented trade-offs and decisions](docs/ARCHITECTURE_DECISIONS.md) |
 
-## Installation
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/renu-sulthan/todo-app.git
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd todo-app
-    ```
-3. Open `index.html` in a web browser to see the app in action:
-    - Double-click on the `index.html` file, or
-    - Open the file in your preferred browser.
+## Architecture
 
-## Usage
-Once the project is running:
-1. Add a new task using the input field.
-2. Click on the edit button to modify any task.
-3. Delete tasks by clicking the delete icon.
-4. Cross off completed tasks using the checkbox.
+```text
+Browser (desktop / mobile Chromium)
+          |
+          v
+Task Board UI (HTML/CSS/JS) ----> localStorage
+          |
+          v
+Node HTTP static server ----> GET /health
 
-## Technologies Used
-- **HTML5**: Structuring the application.
-- **CSS3**: Styling the application and making it responsive.
-- **JavaScript**: Handling dynamic behavior (add/edit/complete/delete tasks).
-  
+Unit/contract checks --------\
+                              > GitHub Actions -> JSON/HTML evidence -> GO / NO-GO
+Playwright UI/E2E checks ----/
+```
+
+## Run locally
+
+Requirements: **Node.js 22+**.
+
+```bash
+npm install
+npx playwright install chromium
+npm start
+```
+
+Open http://127.0.0.1:4173.
+
+In another terminal:
+
+```bash
+npm test                  # Node unit/contract checks
+npm run test:e2e:smoke    # Critical smoke scenario on both projects
+npm run test:e2e          # Desktop and mobile-emulation browser checks
+npm run quality:gate      # Evidence-based release decision
+```
+
+`npm run quality:gate` requires the JSON results from a preceding Playwright run. It intentionally fails when results are absent, flaky, skipped, or failed. **Do not interpret a GO as approval for a real production release.**
+
+## Engineering judgment, not just test counts
+
+- **Risk first:** Focus P0/P1 coverage on persistence, injection safety, validation, and user journeys.
+- **Test evidence:** Keep reports and traces from failed CI runs.
+- **Failure triage:** Treat flaky outcomes as risks to investigate rather than hiding them with retries.
+- **Release decision:** Separate automated evidence from accountable human sign-off.
+- **Accessibility:** Use semantic controls and keyboard interactions; manual screen-reader checks remain a gap.
+- **Data protection:** No user accounts, employer code, real customer data, or secrets.
+
+## Known limitations and roadmap
+
+- This is a small **client-only task board**, not a microservices or production insurance/logistics platform.
+- The only HTTP API contract is `GET /health`; business API automation will be demonstrated in a separate sample service.
+- Mobile testing uses **Chromium emulation**, not physical iOS/Android devices.
+- No verified test results or performance metrics are claimed until the CI workflow runs successfully.
+- Next iterations: contract-testing service, accessibility scan, cross-browser expansion, and trend reporting.
+
+## Reviewer walkthrough (10 minutes)
+
+1. Review [risk coverage](docs/QUALITY_STRATEGY.md).
+2. Inspect [browser tests](tests/e2e/task-board.spec.ts) and [unit checks](tests/unit).
+3. Inspect [CI workflow](.github/workflows/quality-gates.yml) and [release gate](tools/release-gate.cjs).
+4. Read [architecture decisions](docs/ARCHITECTURE_DECISIONS.md).
+5. Open a PR and inspect the automated evidence; decide whether to release using the [template](docs/RELEASE_REVIEW_TEMPLATE.md).
+
+**Maintainer:** [AshokSDET](https://github.com/AshokSDET) · [LinkedIn](https://www.linkedin.com/in/ashoksulthan-softwarequalityengineer/)

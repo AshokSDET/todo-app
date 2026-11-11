@@ -1,27 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do app</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A small task board used as a system under test for a quality engineering portfolio.">
+  <title>Task Board | Quality Engineering Lab</title>
+  <link rel="stylesheet" href="main.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-    <div id="todo-app">
-        <h1>My To-Do List</h1>
-        <form action="" id="todo-form">
-            <input type="text" id="todo-input" placeholder="Add new task...">
-            <button type="submit"> Add Task</button>
-        </form>
-        <ul id="todo-list"></ul>
+  <main id="todo-app" aria-labelledby="page-title">
+    <p class="eyebrow">QUALITY ENGINEERING LAB · SAMPLE APPLICATION</p>
+    <h1 id="page-title">Task Board</h1>
+    <p class="intro">A small, accessible app used to demonstrate automated quality gates and release engineering.</p>
+    <form id="todo-form" novalidate>
+      <label for="todo-input">New task</label>
+      <div class="form-row">
+        <input id="todo-input" name="task" type="text" maxlength="120" autocomplete="off" placeholder="e.g. Review release checklist">
+        <button type="submit">Add task</button>
+      </div>
+      <p id="form-error" class="error" role="alert" hidden></p>
+    </form>
+    <div class="list-header">
+      <h2>Tasks</h2>
+      <p id="task-summary" role="status" aria-live="polite"></p>
     </div>
-
-    <script src="script.js"></script>
-
+    <p id="empty-state" class="empty-state">No tasks yet. Add one to get started.</p>
+    <ul id="todo-list" aria-label="Tasks"></ul>
+    <p class="footnote">Tasks are saved locally in your browser. No account or external service is required.</p>
+  </main>
 </body>
-
 </html>
